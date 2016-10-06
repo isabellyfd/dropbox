@@ -1,11 +1,17 @@
 package dropbox;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Locale;
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
 import com.dropbox.core.DbxClient;
+import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxWebAuthNoRedirect;
+import com.dropbox.core.DbxWriteMode;
 import com.dropbox.core.DbxRequestConfig;
 import model.User;
 
@@ -15,7 +21,6 @@ public class DropboxHandler {
 	private DbxRequestConfig config;
 	private DbxAuthFinish authFinish;
 	private DbxClient client;
-	
 	private String authorizedURL;
 	
 	public DropboxHandler() {
@@ -53,6 +58,31 @@ public class DropboxHandler {
 			e.printStackTrace();
 		}
 		return user;	
+	}
+	
+	
+	public void sendArquiveToDropBox(String path) {
+		File inputFile = new File(path);
+		FileInputStream inputStream = null;
+		
+		try {
+			
+			inputStream = new FileInputStream(inputFile);
+		    DbxEntry.File uploadedFile = client.uploadFile(path,
+		        DbxWriteMode.add(), inputFile.length(), inputStream);
+		    System.out.println("Uploaded: " + uploadedFile.toString());
+		    
+		} catch (DbxException | IOException e) {
+			e.printStackTrace();
+			
+		} finally {
+		    try {
+				inputStream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }
