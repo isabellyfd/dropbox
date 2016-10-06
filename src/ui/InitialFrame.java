@@ -1,15 +1,22 @@
 package ui;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
+import javax.swing.JButton;
+
+import controler.Controler;
 
 public class InitialFrame {
-
+	
 	private JFrame frame;
-
+	private Controler controler;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -37,6 +44,8 @@ public class InitialFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		this.controler = new Controler();
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,5 +59,34 @@ public class InitialFrame {
 		lblLabel.setBounds(99, 86, 250, 45);
 		
 		frame.getContentPane().add(lblLabel);
+		
+		JButton btnLink = new JButton("Link");
+		btnLink.setBounds(162, 157, 117, 29);
+		btnLink.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openDropboxURL();
+				goToNextFrame();
+			}
+		});
+		
+		frame.getContentPane().add(btnLink);
+		
+		
+	}
+	
+	public void openDropboxURL(){
+		try {
+			java.awt.Desktop.getDesktop().browse(java.net.URI.create(this.controler.getDropboxAuthURL()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void goToNextFrame() {
+		this.frame.setVisible(false);
+		AuthFrame auth = new AuthFrame(this.controler);
+		auth.getFrame().setVisible(true);
 	}
 }

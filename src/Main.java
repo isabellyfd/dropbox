@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.Locale;
 */
 
+import java.io.IOException;
 import java.sql.*;
 
 import data.DataProvideFactory;
@@ -40,22 +41,20 @@ public class Main {
 		System.out.println(code);
 		
 		
-		DbxAuthFinish authFinish = webAuth.finish(code);
+		;
 		String accessToken = authFinish.accessToken;
 		
 		
 		// acessToken is done once for each user
 		
 		
-		DbxClient client = new DbxClient(config, accessToken);
-		System.out.print("Linked account: " + client.getAccountInfo().displayName);
+		
 		*/
 		
 		
-		DataProvideFactory db = new DataProvideFactory();
 		try {
-			db.insertArquive(new Arquive ("belly.txt"));
-		} catch (ClassNotFoundException | SQLException e) {
+			java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://google.com"));
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
